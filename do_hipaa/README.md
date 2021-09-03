@@ -21,7 +21,7 @@ Based on the above, let's try to discuss the `pros` and `cons` using some simple
 
 ## HIPAA Architecture 1st Draft
 
-In order for a system or architecture to be `HIPAA` compliant, there are many `"Terms and Conditions"` that it must obey or comply in terms of security, like:
+In order for a system or architecture to be `HIPAA` compliant, there are many `"Terms and Conditions"` that it must obey to or comply in terms of security, like:
 
 1. How `secure` is the underlying `infrastructure` starting with all the machines being used and all the `hardware` the application runs on ? 
 2. Is `user` data `encrypted` all over the place (starting from the `log in` process until it gets stored in a `database` somewhere) ? 
@@ -50,11 +50,11 @@ Nothing special here, just a plain old and classic architecture.
 **Cons:**
 
 1. `DigitalOcean` doesn't provide an `Auto Scaler` for their VM's (called `Droplets`). It's available if the `App Platform` is used, but it's kind of limited in functionality. For more details please visit the [App Platform Overview](https://docs.digitalocean.com/products/app-platform) and [App Platform Limitations](https://docs.digitalocean.com/products/app-platform/#limits).
-2. Because of the above the architecture presented in the first draft is kind of `rigid` in terms of `resource usage` and `costs`. It means that no matter if the `load` on the system is `high` or `low`, a `fixed number` of VM's still `run in the background` and maybe doing almost `nothing`.
+2. Because of the above, the architecture presented in the first draft is kind of `rigid` in terms of `resource usage` and `costs`. It means that no matter if the `load` on the system is `high` or `low`, a `fixed number` of VM's still `run in the background` and maybe doing almost `nothing`.
    
 In terms of security and for the sake of simplicity a `VPN setup` was not added, but `OpenVPN` can be added and it's available as a `DigitalOcean App`. `DigitalOcean App` platform let's you easily install and configure `one-click apps` from a `trusted` marketplace. 
 
-`Auditing` tools or `CVE` scanners for the underlying Linux OS distributions which `Droplets` use or other software compomnents, were ommited for simplicity as well (this doesn't mean that options and support is not available).
+`Auditing` tools or `CVE` scanners for the underlying Linux OS distributions which `Droplets` use or other software components, were ommited for simplicity as well (this doesn't mean that options and support is not available).
 
 
 ## HIPAA Architecture 2nd Draft
