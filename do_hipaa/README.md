@@ -4,16 +4,16 @@ This is just a draft based on an initial research. The ideas and architecture di
 
 ## Overview
 
-First, some questions need to be asked first:
+Before going into more details, there are some questions that need to be asked first:
 
-1. What makes a sistem `Highly Available` or `HA`? 
-2. What makes a sistem `Secure` or less susceptible to malicious attacks (data steal/loss, ranswomware, etc) ?
+1. What makes a system `Highly Available` or `HA`? 
+2. What makes a system `Secure` or less susceptible to malicious attacks (data steal/loss, ranswomware, etc) ?
 3. Can `DigitalOcean` be a good candidate?
 
 Before answering all of the above, some true facts need to be stated first:
 
 1. `NO` system can be made `100%` HA because nothing is perfect (`DigitalOcean` guarantees `99% uptime` for all provided Cloud Services)
-2. `NO` system can be `100%` secure due to many factors (software patches, using in 3rd party software or even unknown software sources sometimes, etc). What we can do is to try to make it less susceptible to attacks or harder to break. This is part of the `hardening` process of every sistem. Often this needs a `dedicated` person or team like `DevSecOps` and such.
+2. `NO` system can be `100%` secure due to many factors (software patches, using in 3rd party software or even unknown software sources sometimes, etc). What we can do is to try to make it less susceptible to attacks or harder to break. This is part of the `hardening` process of every system. Often this needs a `dedicated` person or team like `DevSecOps` and such.
 3. As with every `Cloud Provider` available out there, some have advantages over the other in terms of the available `features`, `ease` of use, `support` and `maintenance`. And, let's not to forget about `costs` as well. `DigitalOcean` has attractive prices, a simpler `Cloud Services` architecture and interface and lots and lots of resources available in terms of `tutorials`, `how to's`, etc. In other words is more `Developer` oriented/friendly, and getting something to work is really fast and as painful as possible. This doesn't mean that it cannot scale up to meet higher demands for more `Enterprise` oriented applications and architectures. In the end, it all comes down to a tradeoff between `ease` of use and `low costs` vs `Enterprise` ready solutions (like `AWS`), which due to higher features available and `complexity` it can imply `more costs` and even `vendor lock-in` (`hard` to `migrate` the existing infrastructure to another `provider` in the future).
 
 ## HIPAA Architecture 1st Draft
