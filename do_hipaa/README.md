@@ -39,8 +39,8 @@ Nothing special here, just a plain old and classic architecture.
 
 **Pros:**
 
-1. `Highly available multi-region` setup via `DNS` Server (`DNS Server` is used as a `failover mechanism` between `Datacenters` from different `Regions`)
-2. Each `Public Load Balancer` has `SSL` support enabled
+1. `Highly available multi-region` setup via `Global Server Load Balancing` (GLSB) (`GLSB` is used as a `failover mechanism` between `Datacenters` from different `Regions`, as well as routing traffic to the closest region for the user). [NGINX Plus](https://www.nginx.com/resources/glossary/global-server-load-balancing/) or [Akamai GTM](https://www.akamai.com/products/global-traffic-management) can be used.
+2. Each `Public Load Balancer` has `SSL` passthrough and termination enabled
 3. `Firewalls` enabled and set up for each `Droplet` (DigitalOcean VM's that run Linux OS)
 4. `VPC isolation` between the `Application` Tier and `Database` Tier
 5. `Database encryption` and `SQL attacks` protection via `ACRA` Server (available as a `DigitalOcean App`)
@@ -51,10 +51,11 @@ Nothing special here, just a plain old and classic architecture.
 
 1. `DigitalOcean` doesn't provide an `Auto Scaler` for their VM's (called `Droplets`). It's available if the `App Platform` is used, but it's kind of limited in functionality. For more details please visit the [App Platform Overview](https://docs.digitalocean.com/products/app-platform) and [App Platform Limitations](https://docs.digitalocean.com/products/app-platform/#limits).
 2. Because of the above, the architecture presented in the first draft is kind of `rigid` in terms of `resource usage` and `costs`. It means that no matter if the `load` on the system is `high` or `low`, a `fixed number` of VM's still `run in the background` and maybe doing almost `nothing`.
+3. `Identity and Access Management` (IAM) is another feature that's not currently supported on `DigitalOcean` to allow for `fine` control of `who` has access on `what`.
    
 In terms of security and for the sake of simplicity a `VPN setup` was not added, but `OpenVPN` can be added and it's available as a `DigitalOcean App`. `DigitalOcean App` platform let's you easily install and configure `one-click apps` from a `trusted` marketplace. 
 
-`Auditing` tools or `CVE` scanners for the underlying Linux OS distributions which `Droplets` use or other software components, were ommited for simplicity as well (this doesn't mean that options and support is not available).
+`Auditing` tools or `CVE` scanners for the underlying `Linux OS` distributions which `Droplets` use or other software components, were ommited for simplicity as well (this doesn't mean that options and support is not available).
 
 
 ## HIPAA Architecture 2nd Draft
@@ -63,4 +64,20 @@ A more robust and efficient setup to use is one based on `Kubernetes`. This over
 
 `Kubernetes` is widely known for its `HA` features, `reliability`, `security` and `ease` of configuration. Not to mention the big `support` available from the `community` and ready to use `tools`.
 
-To be continued ...
+Most notable features:
+
+* `Role Based Access Control` (RBAC) for fine control of `who` has access on `what`
+* `Rolling Deployments` strategy for `zero` application `downtime` during upgrades
+* `Easy` and `automatic` application `scale up/down` based on the load and needs
+* `Efficient` and `secure` application `packaging` and `distribution` via the `Docker` Container Runtime Interface (CRI) support
+* Setting up Docker registries with `vulnerability` scan support to prevent security flaws from early stages of development
+
+What DigitalOcean offers in terms of Kubernetes support:
+
+* Easy `Kubernetes` cluster deployment and management via [DOKS](https://www.digitalocean.com/products/kubernetes) so you don't need to worry about the `Control Plane` or any other internal stuff for having a `Kubernetes` cluster up and running. All is managed by `DigitalOcean`, you only need to focus on application development and deployment, not the internals of Kubernetes.
+* `Multi-region` support was added recently so you can have `High Availabilty` for `DOKS` as well, spanning across `multiple datacenters`
+* Each `worker node` comes with `Cloud Firewall` support and it's enabled by default
+* `Block Storage` support for `Kubernetes Persistent Volumes`
+* `Load Balancer` support
+
+More information about [DigitalOcean Managed Kubernetes](https://docs.digitalocean.com/products/kubernetes/) and [security](https://docs.digitalocean.com/products/kubernetes/resources/security/) can be found on the official documentation page.
