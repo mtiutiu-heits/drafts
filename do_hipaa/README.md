@@ -33,7 +33,7 @@ In order for a system or architecture to be `HIPAA` compliant, there are many `"
 
 The above list can go on and on. Let's have a first draft and then observe its strong and weak points:
 
-![DO HIPAA 1st Arch](res/img/do_hipaa_arch_1st.jpg)
+![DO HIPAA 1st Draft Arch](res/img/do_hipaa_arch_1st.jpg)
 
 Nothing special here, just a plain old and classic architecture.
 
@@ -59,12 +59,25 @@ In terms of security and for the sake of simplicity a `VPN setup` was not added,
 
 `Auditing` tools or `CVE` scanners for the underlying `Linux OS` distributions which `Droplets` use or other software components, were ommited for simplicity as well (this doesn't mean that options and support is not available).
 
+### References:
+
+* Droplet as a [Gateway](https://docs.digitalocean.com/products/networking/vpc/resources/droplet-as-gateway/) for DigitalOcean.
+* [VPC Networks](https://docs.digitalocean.com/products/networking/vpc/resources/best-practices/) best practices for DigitalOcean.
+* [DNS Round Robin technique](https://www.digitalocean.com/community/tutorials/how-to-configure-dns-round-robin-load-balancing-for-high-availability) for DigitalOcean.
+* [ACRA](https://marketplace.digitalocean.com/apps/acra) for `SQL` injection attacks protection and database `encryption` - available as a `DigitalOcean Application Droplet`.
+* DigitalOcean [Managed Databases](https://docs.digitalocean.com/products/databases/) support and documentation.
+* DigitalOcean [DNS](https://docs.digitalocean.com/products/networking/dns/) support and documentation.
+* DigitalOcean [Load Balancers](https://docs.digitalocean.com/products/networking/load-balancers/) support and documentation.
+* DigitalOcean [Cloud Firewalls](https://docs.digitalocean.com/products/networking/firewalls/) support and documentation.
+
 
 ## HIPAA Architecture 2nd Draft
 
 A more robust and efficient setup to use is one based on `Kubernetes`. This overcomes all of the above first draft cons, and even more.
 
-`Kubernetes` is widely known for its `HA` features, `reliability`, `security` and `ease` of configuration. Not to mention the big `support` available from the `community` and ready to use `tools`.
+![DO HIPAA 2nd Draft Arch](res/img/do_hipaa_arch_2nd.jpg)
+
+`Kubernetes` is widely known for its `High Availability` features, `reliability`, `security` and `ease` of configuration. Not to mention the big `support` available from the `community` and ready to use `tools`.
 
 Most notable features:
 
@@ -84,4 +97,25 @@ What `DigitalOcean` offers in terms of `Kubernetes` support:
 * `Block Storage` support for `Kubernetes Persistent Volumes`
 * `Load Balancer` support
 
-More information about [DigitalOcean Managed Kubernetes](https://docs.digitalocean.com/products/kubernetes/) and [security](https://docs.digitalocean.com/products/kubernetes/resources/security/) can be found on the official documentation page.
+The second architecture draft adds some extra flavor like:
+
+* `Ingress` and `API Gateway` support via the  `Ambassador Edge Stack`
+* `Monitoring` via `Prometheus`
+* `Logs` aggregation and indexing via `Loki`
+* `Backup/Restore` via `Velero` (`DOKS` cluster only, `Database Tier` has its own `Backup/Restore` support provided via `DigitalOcean` services)
+* `DigitalOcean Spaces` (`S3` like) remote storage for `Loki` data and `Velero` backups
+* Although not present in the diagram, `DigitalOcean` offers secure `Docker Container Registry` support for storing application images. It can be integrated with 3rd party tools for periodic image `vulnerability scans`.
+
+The second approach is not fully Kubernetes based. It's rather a `Hybrid` approach. `Application` tier is fully managed via `Kubernetes`, but the `Database Tier` is not. Although, you can deploy databases into `Kubernetes` as well via `StatefulSets` and use `Persistent Volumes` for permanent storage (`DigitalOcean` offers `Block Storage` support for `Volumes`), it adds some overhead in terms of maintenance. `DigitalOcean Managed Database` service simplifies this process so, in the end it's a matter of choice and evaluation of costs between having a `self managed database` inside `Kubernetes` or using the `DigitalOcean` services for this matter.
+
+### DigitalOcean Kubernetes Security:
+
+* `DigitalOcean` keeps Kubernetes `secure by default` (`SSL` encryption is enabled) and `patching` new releases as well
+* In general, `Kubernetes` clusters can be secured even more via `RBAC`, disabling `unauthenticated` access to the `API server`, setting up and configuring `Admission Controllers`, disabling `Public Access` to the cluster, etc.
+* Using an `Ingress` controller like `Ambassador Edge Stack` offers extra layers of security as well which can be configured accordingly
+
+### References:
+
+* DigitalOcean [Managed Kubernetes](https://docs.digitalocean.com/products/kubernetes/) and [security](https://docs.digitalocean.com/products/kubernetes/resources/security/) support and documentation.
+* Securing [Ambassador Edge Stack](https://www.getambassador.io/products/edge-stack/api-gateway/security-authentication/) based applications.
+* [Kubecost](https://www.kubecost.com) for evaluating `Kubernetes` clusters `costs` and adjusting `limits/requests`.
