@@ -97,6 +97,8 @@ What `DigitalOcean` offers in terms of `Kubernetes` support:
 * `Block Storage` support for `Kubernetes Persistent Volumes`
 * `Load Balancer` support
 
+### Overview
+
 The second architecture draft adds some extra flavor like:
 
 * `Ingress` and `API Gateway` support via the  `Ambassador Edge Stack`
@@ -106,12 +108,11 @@ The second architecture draft adds some extra flavor like:
 * `DigitalOcean Spaces` (`S3` like) remote storage for `Loki` data and `Velero` backups
 * Although not present in the diagram, `DigitalOcean` offers secure `Docker Container Registry` support for storing application images. It can be integrated with 3rd party tools for periodic image `vulnerability scans`.
 
-**Notes:**
+This approach is not fully `Kubernetes` based. It's rather a `hybrid` approach. `Application` tier is fully managed via `Kubernetes`, but the `Database Tier` is not. Although, you can deploy databases into `Kubernetes` as well via `StatefulSets` and use `Persistent Volumes` for permanent storage (`DigitalOcean` offers `Block Storage` support for `Volumes`), it adds some overhead in terms of maintenance. `DigitalOcean Managed Database` service simplifies this process so, in the end it's a matter of choice and evaluation of costs between having a `self managed database` inside `Kubernetes` or using the `DigitalOcean` services for this matter.
 
-* The second approach is not fully Kubernetes based. It's rather a `Hybrid` approach. `Application` tier is fully managed via `Kubernetes`, but the `Database Tier` is not. Although, you can deploy databases into `Kubernetes` as well via `StatefulSets` and use `Persistent Volumes` for permanent storage (`DigitalOcean` offers `Block Storage` support for `Volumes`), it adds some overhead in terms of maintenance. `DigitalOcean Managed Database` service simplifies this process so, in the end it's a matter of choice and evaluation of costs between having a `self managed database` inside `Kubernetes` or using the `DigitalOcean` services for this matter.
-* `Monitoring` and `Logging` can be `centralized` so that it's not replicated across each region and in each cluster.
+`Monitoring` and `Logging` can be `centralized` so that it's not replicated across each region and in each cluster. This approach reduces `costs` in general.
 
-### DigitalOcean Kubernetes Security:
+**DigitalOcean Kubernetes Security:**
 
 * `DigitalOcean` keeps Kubernetes `secure by default` (`SSL` encryption is enabled) and `patching` new releases as well
 * In general, `Kubernetes` clusters can be secured even more via `RBAC`, disabling `unauthenticated` access to the `API server`, setting up and configuring `Admission Controllers`, disabling `Public Access` to the cluster, etc.
